@@ -10,15 +10,16 @@ const margin = {
 }
 
 // /* LOAD DATA */
-// d3.csv('data.csv', d => {
-//   // use custom initializer to reformat the data the way we want it
-//   // ref: https://github.com/d3/d3-fetch#dsv
-//   return {
-//     date: new Date(d.dateTemperature),
-//     location: d.location,
-//     temperature: +d.temperature
-//   }
-// }).then(data => {
+Promise.all([
+    d3.json("world.json"),
+    d3.csv("cities_data.csv", d3.autoType),
+  ]).then(([worldMapData, cityData]) => {
+
+    console.log(worldMapData);
+
+    console.log(cityData);
+
+  })
 
 
  
