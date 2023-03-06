@@ -1,13 +1,13 @@
 /* CONSTANTS AND GLOBALS */
 const width = window.innerWidth *.8 ;
-const height = 500;
+const height = window.innerHeight *.8 ;
 
-const margin = {
-    right: 50,
-    left: 50,
-    top: 50,
-    bottom: 50
-}
+// const margin = {
+//     right: 50,
+//     left: 50,
+//     top: 50,
+//     bottom: 50
+// }
 
 // /* LOAD DATA */
 Promise.all([
@@ -23,19 +23,9 @@ Promise.all([
 
     // Projection for map
     const projection = d3.geoMercator()
-        .scale([110])
-        // .center(markers[0].geometry.coordinates)
-        .translate([360, 330]);
-    // .fitSize([
-    //     width - margin.right - margin.left,
-    //     height - margin.bottom - margin.top
-    // ], worldMapData);
-                // Fit size tells D3 to fit usMapData into the specified x and y area
+        .scale([180])
+        .translate([width / 2, height * .7]);
 
-    // // Sizes for airport dots
-    // const sizeScale = d3.scaleSqrt()
-    //     .domain([2, 3])
-    //     .range([5, 10])
 
     // HTML ELEMENTS======================================
 
@@ -57,5 +47,24 @@ Promise.all([
         .attr("stroke", "black")
         .attr("fill", "transparent")
         .attr("d", pathGen)
+
+    // DRAW AIRPORT POINTS/CIRCLES ---------------------------------
+
+    someCities = cityData.filter((_, i) => i % 50 === 0)
+
+
+    svg.selectAll(".city-points")
+        .data(someCities)
+        .join("circle")
+        .attr("class", "city-points")
+        .attr("stroke", "black")
+        .attr("opacity", 0.6)
+        .attr("r", 1)
+        .attr("transform", d => {
+
+            const [x, y] = projection([d.lng, d.lat]);
+            
+            return `translate(${x}, ${y})`;
+          });
 
   })
